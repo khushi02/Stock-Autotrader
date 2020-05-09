@@ -82,7 +82,8 @@ def compile_data():
 # Graph data on a heatmap
 def visualize_data():
     df = pd.read_csv('sp500_joined_closes.csv')
-    df_corr = df.corr()
+    df.set_index('Date', inplace=True) 
+    df_corr = df.pct_change().corr()
     data = df_corr.values
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)

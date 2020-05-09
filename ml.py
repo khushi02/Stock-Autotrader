@@ -24,7 +24,7 @@ def process_data_for_labels(ticker):
 # Helper function for buy/sell/hold labels 
 def buy_sell_hold(*args):
     cols = [c for c in args]
-    req = 0.025
+    req = 0.02
     for col in cols:
         if col > req:
             return 1
@@ -33,6 +33,7 @@ def buy_sell_hold(*args):
     return 0
 
 
+# Create featuresets
 def extract_featuresets(ticker):
     tickers, df, days = process_data_for_labels(ticker)
     df['{}_target'.format(ticker)] = list(map(buy_sell_hold, 
@@ -55,6 +56,7 @@ def extract_featuresets(ticker):
     return X, y, df
 
 
+# Create predictions
 def do_ml(ticker):
     X, y, df = extract_featuresets(ticker)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
@@ -71,5 +73,3 @@ def do_ml(ticker):
     print('Predicted Spread:', Counter(predictions))
     
     return confidence
-
-do_ml('BAC')
